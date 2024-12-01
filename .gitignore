@@ -1,38 +1,62 @@
-target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
 *.iml
 *.ipr
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+*.iws
 .vscode/
+*.class
 
-### Mac OS ###
-.DS_Store
+# Пакеты и зависимости
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.tar
+*.gz
+
+# Конфигурационные файлы IDE
+*.project
+*.classpath
+
+# Папки для кэша
+.cache/
+.gradle/
+build/
+
+# Временные файлы
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+
+# Папки, создаваемые CI/CD
+.jenkins/
+.ci/
+.circleci/
+.github/
+.gitlab-ci.yml
+
+# Прочее
+*.lock
+*.properties
+
+# Секреты и конфиденциальные данные
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
