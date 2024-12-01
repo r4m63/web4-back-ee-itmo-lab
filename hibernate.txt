@@ -1,0 +1,54 @@
+у hibernate есть 2 API
+свой собственный и JPA
+
+можно писать как persistence.xml так и hibernate.cfg.xml
+
+у Hibernate действительно есть две API: собственная (native API) и JPA (Java Persistence API). Они используются для взаимодействия с базой данных, но отличаются своей спецификой.
+
+1. Собственная API Hibernate (Hibernate Native API)
+Это оригинальный API, разработанный исключительно для Hibernate.
+Предоставляет больше возможностей и гибкости, чем JPA, включая такие функции, как:
+Кэширование второго уровня (Second Level Cache).
+Собственные запросы HQL (Hibernate Query Language).
+Более тонкий контроль за поведением сессии, транзакциями и работой с объектами.
+Используется через класс Session из org.hibernate.Session, который предоставляет методы для выполнения операций CRUD и запросов.
+Пример:
+
+Session session = sessionFactory.openSession();
+Transaction transaction = session.beginTransaction();
+
+Employee emp = new Employee();
+emp.setName("John Doe");
+emp.setSalary(50000);
+session.save(emp);
+
+transaction.commit();
+session.close();
+2. JPA API (Java Persistence API)
+Это стандартная спецификация Java для работы с ORM (Object-Relational Mapping), поддерживаемая многими провайдерами (например, Hibernate, EclipseLink, OpenJPA).
+Абстрагируется от конкретного провайдера (например, Hibernate), что упрощает миграцию между разными реализациями JPA.
+Использует интерфейсы EntityManager, EntityTransaction и аннотации, такие как @Entity, @Table, @Column для описания моделей.
+Пример:
+
+
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
+EntityManager em = emf.createEntityManager();
+
+em.getTransaction().begin();
+
+Employee emp = new Employee();
+emp.setName("Jane Doe");
+emp.setSalary(60000);
+em.persist(emp);
+
+em.getTransaction().commit();
+em.close();
+Основные различия:
+Характеристика	            Hibernate API	                        JPA API
+Спецификация	            Проприетарный API Hibernate.	        Стандартная спецификация Java.
+Гибкость	                Более мощный и гибкий.	                Более ограниченный функционал.
+Зависимость от Hibernate	Привязан к Hibernate.	                Может использоваться с любым JPA-провайдером.
+Контроль за поведением	    Полный контроль через Session.	        Абстрагированный EntityManager.
+Кэширование	                Встроенная поддержка второго уровня.	Требуется настройка через провайдер.
+
+Вы можете использовать JPA для большей совместимости и стандартного подхода, а также подключать функции Hibernate API, когда нужно больше гибкости.
