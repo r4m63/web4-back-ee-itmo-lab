@@ -10,3 +10,6 @@ additional:
     - Jakarta Mail pass reset + registration(by mail) announce
 
     - попробывать нативно и в docker
+
+frontend
+    -

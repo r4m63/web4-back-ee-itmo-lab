@@ -1,4 +1,4 @@
-package dev.ramil21.web4back.util;
+package dev.ramil21.web4back.config;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -8,14 +8,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 @ApplicationScoped
-public class HibernateUtil {
+public class HibernateConfig {
+
     private SessionFactory sessionFactory;
 
     @PostConstruct
     public void init() {
         try {
-            String configFile = System.getProperty("hibernate.config", "hibernate.cfg.xml");
-            sessionFactory = new Configuration().configure(configFile).buildSessionFactory();
+            sessionFactory = new Configuration().configure().buildSessionFactory();
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при создании SessionFactory", e);
         }
@@ -27,7 +27,7 @@ public class HibernateUtil {
     }
 
     @PreDestroy
-    public void closeSessionFactory() {
+    public void shutdown() {
         if (sessionFactory != null) {
             sessionFactory.close();
         }
