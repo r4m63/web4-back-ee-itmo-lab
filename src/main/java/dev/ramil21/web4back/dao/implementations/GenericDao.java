@@ -1,4 +1,4 @@
-package dev.ramil21.web4back.dao;
+package dev.ramil21.web4back.dao.implementations;
 
 import jakarta.inject.Inject;
 import org.hibernate.Session;
@@ -17,13 +17,13 @@ public abstract class GenericDao<T, ID> {
         this.entityClass = entityClass;
     }
 
-    public T findById(ID id) {
+    protected T findById(ID id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(entityClass, id);
         }
     }
 
-    public List<T> findAll() {
+    protected List<T> findAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM " + entityClass.getSimpleName(), entityClass).list();
         }
@@ -37,7 +37,7 @@ public abstract class GenericDao<T, ID> {
      * remove -> delete
      * find -> get
      */
-    void save(T entity) {
+    protected void save(T entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -51,7 +51,7 @@ public abstract class GenericDao<T, ID> {
         }
     }
 
-    public void update(T entity) {
+    protected void update(T entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -65,7 +65,7 @@ public abstract class GenericDao<T, ID> {
         }
     }
 
-    public void delete(T entity) {
+    protected void delete(T entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();

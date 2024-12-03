@@ -1,0 +1,10 @@
+package dev.ramil21.web4back.dao;
+
+import dev.ramil21.web4back.model.User;
+
+import java.util.Optional;
+
+public interface IUserDao {
+    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String email);
+}

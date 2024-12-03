@@ -1,0 +1,61 @@
+                    JWT
+        обычная закодированная строка
+
+first_part.second_part.third_part
+
+first_part:                 second_part:                        third_part:
+{                           {                                   {
+    "alg": "HS512",             "id": "1",                          "secret": "КАКАЯ-ТО_СТРОКА",
+    "typ": "JWT"                "username": "username"          }
+}                               "role": ["admin", "manager"]
+                            }
+
+(first_part + second_part) = third_part
+
+access token (15-30 минут) - для доступа к сервису - в localstorage
+
+refresh token (15-60 дней) - для обновления access - httpOnly cookie - сохраняется в бд на сервера
+
+
+
+client -> server: {email, password}
+server: generate access + refresh tokens
+server -> client: {access token -> save to localstorage, refresh token server already set to cookie}
+client -> server: GET /api/* headers: Authorization: ${accessToken}
+server: check accessToken
+        if valid
+            {body}
+            200
+        else
+            401
+client:
+    обработчик на 401 -> api/refresh cookie: refreshToken
+
+server:
+    check refresh token
+    send new generated access + refresh tokens
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
