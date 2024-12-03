@@ -1,10 +1,9 @@
 package dev.ramil21.web4back.dao.implementations;
 
+import dev.ramil21.web4back.model.Role;
 import jakarta.ejb.Stateless;
 import dev.ramil21.web4back.dao.IRoleDao;
-import dev.ramil21.web4back.model.Role;
 import jakarta.inject.Inject;
-import lombok.NoArgsConstructor;
 import org.hibernate.SessionFactory;
 
 @Stateless

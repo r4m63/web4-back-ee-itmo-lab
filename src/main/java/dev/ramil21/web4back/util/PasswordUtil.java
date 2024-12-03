@@ -1,19 +1,25 @@
 package dev.ramil21.web4back.util;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
+import jakarta.enterprise.context.ApplicationScoped;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+
+@ApplicationScoped
 public class PasswordUtil {
 
-    public static String hashPassword(char[] password) {
-        // The cost factor determines the amount of computation required for hashing.
-        // A higher number means more work, which increases security but also slows down hashing.
-        int cost = 12; // This is a commonly used cost factor.
-
-        return BCrypt.withDefaults().hashToString(cost, password);
+    public byte[] generateSalt() {
+        byte[] salt = new byte[16];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(salt);
+        return salt;
     }
 
-    public static boolean checkPassword(char[] password, String hashedPassword) {
-        return BCrypt.verifyer().verify(password, hashedPassword).verified;
+    public byte[] hashPassword(String password, byte[] salt) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(salt);
+        return md.digest(password.getBytes());
     }
 
 }

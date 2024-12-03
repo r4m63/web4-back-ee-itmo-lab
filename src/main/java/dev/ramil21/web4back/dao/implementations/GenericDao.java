@@ -1,5 +1,6 @@
 package dev.ramil21.web4back.dao.implementations;
 
+import dev.ramil21.web4back.dao.IAGenericDao;
 import jakarta.inject.Inject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,7 +8,7 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
-public abstract class GenericDao<T, ID> {
+public abstract class GenericDao<T, ID> implements IAGenericDao<T, ID> {
     private final Class<T> entityClass;
 
     @Inject
@@ -17,13 +18,15 @@ public abstract class GenericDao<T, ID> {
         this.entityClass = entityClass;
     }
 
-    protected T findById(ID id) {
+    @Override
+    public  T findById(ID id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(entityClass, id);
         }
     }
 
-    protected List<T> findAll() {
+    @Override
+    public List<T> findAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM " + entityClass.getSimpleName(), entityClass).list();
         }
@@ -37,7 +40,8 @@ public abstract class GenericDao<T, ID> {
      * remove -> delete
      * find -> get
      */
-    protected void save(T entity) {
+    @Override
+    public void save(T entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -51,7 +55,8 @@ public abstract class GenericDao<T, ID> {
         }
     }
 
-    protected void update(T entity) {
+    @Override
+    public void update(T entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
@@ -65,7 +70,8 @@ public abstract class GenericDao<T, ID> {
         }
     }
 
-    protected void delete(T entity) {
+    @Override
+    public void delete(T entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();

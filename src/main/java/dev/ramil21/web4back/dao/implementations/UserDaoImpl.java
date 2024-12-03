@@ -1,6 +1,5 @@
 package dev.ramil21.web4back.dao.implementations;
 
-import dev.ramil21.web4back.model.Role;
 import jakarta.ejb.Stateless;
 import dev.ramil21.web4back.dao.IUserDao;
 import dev.ramil21.web4back.model.User;
@@ -8,7 +7,6 @@ import jakarta.inject.Inject;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.List;
 import java.util.Optional;
 
 @Stateless

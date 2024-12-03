@@ -4,49 +4,43 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import dev.ramil21.web4back.config.SecurityConfig;
+import dev.ramil21.web4back.model.Role;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
+import java.rmi.ServerException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-public class JwtUtil {
 
-    public String generateToken(String username, UserRole role, Long userId, String email) throws ServerException {
-        try {
-            String secretKey = SecurityConfig.getJwtSecretKey();
-            return JWT.create()
-                    .withSubject(username)
-                    .withClaim("userId", userId)
-                    .withClaim("role", role.toString())
-                    .withClaim("email", email)
-                    // Set expiry to 25 minutes
-                    .withExpiresAt(Instant.now().plus(25, ChronoUnit.MINUTES))
-                    .sign(Algorithm.HMAC256(secretKey));
-        } catch (ConfigurationException e) {
-            throw new ServerException("Internal server error.", e);
-        }
+@ApplicationScoped
+public class JwtTokenUtil {
+
+    @Inject
+    SecurityConfig securityConfig;
+
+    public String generateJwtToken(Long userId, String email, Role role) throws ServerException {
+        String secretKey = securityConfig.getJwtSecretKey();
+        return JWT.create()
+                .withClaim("userId", userId)
+                .withClaim("role", role.toString())
+                .withClaim("email", email)
+                .withExpiresAt(Instant.now().plus(25, ChronoUnit.MINUTES))
+                .sign(Algorithm.HMAC256(secretKey));
     }
 
-    public String getEmailFromToken(String token) {
+    public String getEmailFromJwtToken(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getClaim("email").asString();
         } catch (JWTDecodeException exception) {
-            log.error("Error decoding token: {}", exception.getMessage());
             return null;
         }
     }
 
-    public String getUsernameFromToken(String token) {
-        try {
-            DecodedJWT jwt = JWT.decode(token);
-            return jwt.getSubject();
-        } catch (JWTDecodeException exception) {
-            return null;
-        }
-    }
-
-    public Role getRoleFromToken(String token) {
+    public Role getRoleFromJwtToken(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             String roleStr = jwt.getClaim("role").asString();
@@ -56,7 +50,7 @@ public class JwtUtil {
         }
     }
 
-    public Long getUserIdFromToken(String token) {
+    public Long getUserIdFromJwtToken(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getClaim("userId").asLong();
@@ -65,7 +59,7 @@ public class JwtUtil {
         }
     }
 
-    public boolean isTokenExpired(String token) {
+    public boolean isJwtTokenExpired(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             Date expirationTime = jwt.getExpiresAt();
@@ -75,7 +69,7 @@ public class JwtUtil {
         }
     }
 
-    public static String getTimeUntilExpiration(String token) {
+    public static String getTimeUntilJwtExpiration(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             Date expirationTime = jwt.getExpiresAt();
@@ -95,7 +89,6 @@ public class JwtUtil {
         }
         return "Expired";
     }
-
 
 
 }
