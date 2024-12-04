@@ -2,7 +2,7 @@ package dev.ramil21.web4back.dao;
 
 import java.util.List;
 
-public interface IAGenericDao<T, ID> {
+public interface IBaseDao<T, ID> {
     T findById(ID id);
 
     List<T> findAll();

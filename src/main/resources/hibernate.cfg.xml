@@ -5,29 +5,18 @@
 
 <hibernate-configuration>
     <session-factory>
-        <!-- JDBC Database connection settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/web_lab4</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">210605</property>
 
-        <!-- JDBC connection pool settings (C3P0) -->
-        <property name="hibernate.c3p0.min_size">5</property>
-        <property name="hibernate.c3p0.max_size">20</property>
-        <property name="hibernate.c3p0.timeout">300</property>
-        <property name="hibernate.c3p0.max_statements">50</property>
-        <property name="hibernate.c3p0.idle_test_period">3000</property>
-
-        <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
-        <!-- Show SQL -->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
-        <!-- Hibernate caching settings -->
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory
-        </property>
+        <mapping class="dev.ramil21.web4back.model.User"/>
+        <mapping class="dev.ramil21.web4back.model.RefreshToken"/>
+        <mapping class="dev.ramil21.web4back.model.Point"/>
     </session-factory>
 </hibernate-configuration>

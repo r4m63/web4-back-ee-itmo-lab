@@ -4,7 +4,7 @@ import dev.ramil21.web4back.model.User;
 
 import java.util.Optional;
 
-public interface IUserDao extends IAGenericDao<User, Long> {
+public interface IUserDao extends IBaseDao<User, Long> {
     Optional<User> findByUsername(String username);
 
     Optional<User> findByEmail(String email);

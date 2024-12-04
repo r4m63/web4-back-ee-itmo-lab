@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "points")
+@AllArgsConstructor
 public class Point {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

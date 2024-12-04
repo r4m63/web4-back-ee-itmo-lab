@@ -11,13 +11,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.extern.slf4j.Slf4j;
 
 import java.rmi.ServerException;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
 
-
+@Slf4j
 @Path("/auth")
 public class AuthController {
 
@@ -43,6 +42,7 @@ public class AuthController {
     public Response doRegistration(@Valid UserDto userDto) {
         try {
             TokensDto tokens = authService.registerUser(userDto.getEmail(), userDto.getPassword());
+            log.info("Successfully registered user: {}", userDto.getEmail());
             return Response.ok(tokens).build();
         } catch (UserEmailExistsException e) {
             return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
@@ -53,53 +53,5 @@ public class AuthController {
         }
     }
 
-
-    @POST
-    @Path("/login")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doLogin() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Login successful");
-        response.put("token", "sample_jwt_token");
-        return Response.ok(response).build();
-    }
-
-    @POST
-    @Path("/logout")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doLogout() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Logout successful");
-        return Response.ok(response).build();
-    }
-
-    @GET
-    @Path("/activate")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doActivate(@QueryParam("link") String activationLink) {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Activation successful");
-        response.put("link", activationLink);
-        return Response.ok(response).build();
-    }
-
-    @GET
-    @Path("/refresh")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doRefresh() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Token refreshed successfully");
-        response.put("newToken", "new_sample_jwt_token");
-        return Response.ok(response).build();
-    }
-
-    @GET
-    @Path("/test-auth-user")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response testAuthUser() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Authenticated user test successful");
-        return Response.ok(response).build();
-    }
 
 }

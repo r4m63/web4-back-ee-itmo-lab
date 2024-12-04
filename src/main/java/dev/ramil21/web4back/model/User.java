@@ -3,10 +3,11 @@ package dev.ramil21.web4back.model;
 import jakarta.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -32,9 +33,13 @@ public class User {
     private String salt;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Role role;
 
-    @Column(name = "creation_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    @Column(name = "creation_time")
     private LocalDateTime creationTime;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
 }
